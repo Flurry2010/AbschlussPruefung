@@ -23,6 +23,7 @@ public class GUI extends JFrame{
     private JPanel jPUnten;
     private JPanel jPMitte;
     private JList<String> jLList;
+    private List<String> einleseList;
     private DefaultListModel jListModel = new DefaultListModel();
     JScrollPane jSP;
     private JPanel jPLinks;
@@ -35,6 +36,31 @@ public class GUI extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        JMenuBar jb = new JMenuBar();
+        JMenu jm = new JMenu("Datei");
+        JMenuItem jmiOeffnen = new JMenuItem("öffnen");
+
+        ActionListener aclOeffnen = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fj = new JFileChooser();
+                fj.showOpenDialog(null);
+                einleseList = textEinlesen(fj.getSelectedFile().getPath());
+                jListModel.clear();
+
+                for (int i = 0; i < einleseList.size() ; i++) {
+
+                    jListModel.addElement(einleseList.get(i).toString());
+                    System.out.println(einleseList.get(i));
+                }
+
+            }
+        };
+        jmiOeffnen.addActionListener(aclOeffnen);
+        jm.add(jmiOeffnen);
+        jb.add(jm);
+        setJMenuBar(jb);
+
         jPOben = new JPanel(new FlowLayout());
         jTText = new JTextField(30);
         JButton jBeinlesen = new JButton("Text Einlesen");
@@ -44,17 +70,24 @@ public class GUI extends JFrame{
         jSP = new JScrollPane(jLList);
         jSP.setViewportView(jLList);
 
+        jLList.setCellRenderer(new ListCellRenderer<String>() {
+
+            public Component getListCellRendererComponent(JList<? extends String> list, String value, int index, boolean isSelected, boolean cellHasFocus) {
+                return null;
+            }
+        });
+
         ActionListener aclEinlesen = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                List<String> temp = textEinlesen(jTText.getText());
+                einleseList = textEinlesen(jTText.getText());
 
                 jListModel.clear();
 
-                for (int i = 0; i < temp.size() ; i++) {
+                for (int i = 0; i < einleseList.size() ; i++) {
 
-                    jListModel.addElement(temp.get(i).toString());
-                    System.out.println(temp.get(i));
+                    jListModel.addElement(einleseList.get(i).toString());
+                    System.out.println(einleseList.get(i));
                 }
             }
         };
@@ -69,14 +102,14 @@ public class GUI extends JFrame{
             public void keyPressed(KeyEvent e) {
 
                 if(e.getSource() instanceof JButton){
-                    List<String> temp = textEinlesen(jTText.getText());
+                    einleseList = textEinlesen(jTText.getText());
 
                     jListModel.clear();
 
-                    for (int i = 0; i < temp.size() ; i++) {
+                    for (int i = 0; i < einleseList.size() ; i++) {
 
-                        jListModel.addElement(temp.get(i).toString());
-                        System.out.println(temp.get(i));
+                        jListModel.addElement(einleseList.get(i).toString());
+                        System.out.println(einleseList.get(i));
                     }
                 }
             }
@@ -100,8 +133,7 @@ public class GUI extends JFrame{
 
             public void actionPerformed(ActionEvent e) {
 
-                List<String> temp = textEinlesen(jTText.getText());
-                List<TreeMap> atemp = auswertenText(temp);
+                List<TreeMap> atemp = auswertenText(einleseList);
                 ArrayList<Auto> btemp = baueAutos(atemp);
 
                 jListModel.clear();
