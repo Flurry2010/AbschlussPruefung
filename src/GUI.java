@@ -353,7 +353,7 @@ public class GUI extends JFrame {
     //-------------TEXT Schreiben---------------------------
     public void textSchreiben(List list) {
 
-        System.out.println("---------------------------------------");
+        System.out.println("----------Schreibe----------------------------");
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("GewaehlteAutos.txt"))) {
 
