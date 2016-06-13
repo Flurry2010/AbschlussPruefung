@@ -16,7 +16,6 @@ public class Auto implements Comparable<Auto>, Comparator<Auto> {
 
     public Auto(TreeMap<String,String> list){
 
-
         markeModell =list.get("markeModell");
         if(list.get("kw").equals("N/A")){
             ps = 0;
@@ -31,14 +30,12 @@ public class Auto implements Comparable<Auto>, Comparator<Auto> {
     }
 
     public String toString() {
-        return "Auto{" +
-                "Marke und Model: '" + markeModell + '\'' +
+        return "Marke und Model: '" + markeModell + '\'' +
                 ", KW: " + ps +
                 ", KM: " + km +
                 ", Schaltung: '" + schaltung + '\'' +
                 ", EZ: '" + ez + '\'' +
-                ", Preis: '" + preis + '\'' + " €" +
-                '}';
+                ", Preis: '" + preis + '\'' + " €";
     }
 
     public String getMarkeModell() {
@@ -63,6 +60,10 @@ public class Auto implements Comparable<Auto>, Comparator<Auto> {
 
     public int getPreis() {
         return preis;
+    }
+
+    public void setPreis(int preis) {
+        this.preis = preis;
     }
 
     public int compareTo(Auto a) {
